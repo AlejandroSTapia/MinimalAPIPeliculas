@@ -1,12 +1,39 @@
 using MinimalAPIPeliculas.Entidades;
 
 var builder = WebApplication.CreateBuilder(args);
-var apellido = builder.Configuration.GetValue<string>("apellido");
+//var apellido = builder.Configuration.GetValue<string>("apellido");
+
+//Cors
+var origenesPermitidos = builder.Configuration.GetValue<string>("origenesPermitidos")!;
+//COn ! indicamos que siempre tendra valor y no sera nulo
 
 //Inicio de area de los servicios
 
 //Obteneer el valor de appsettings dev
 //porque se estan usando proveedores de configuracion
+
+//---  Habilitar CORS  --  Solo configuracion
+//Servicio de microsoft ya preconfigurado
+builder.Services.AddCors(opciones =>
+{//para multiples, se agrego esta {}
+	opciones.AddDefaultPolicy(configuracion =>
+	{
+		//Con esto permitiremos cualquier pagina web podra comunicarse de cualquier forma
+		//permitir todos los origenes
+		//permitir cualquier cabecera
+		//cualquier metodo, como es get, post, put
+		//configuracion.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+
+		//En lugar de cmo arriba, usaremos WithOrigins para decir que origenes con ayuda de lo establecido en appsettings:
+		configuracion.WithOrigins(origenesPermitidos).AllowAnyHeader().AllowAnyMethod();
+	});
+
+	//si son varias politicas se hace de esta manera
+	opciones.AddPolicy("libre", configuracion =>
+	{
+		configuracion.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+	});
+});
 
 //Fin area de los servicios
 
@@ -16,8 +43,8 @@ var app = builder.Build();
 
 //Middleware MapGet
 //esto permite difinir que quiere que ocurra cuando una peticion get llega a un endpoint especifico
-//app.MapGet("/", () => "Hello World!");
-app.MapGet("/", () => apellido);
+app.MapGet("/", () => "Hello World!");
+//app.MapGet("/", () => apellido); //se comento esto y se descomento lo de arriba, ya que se quito appe de appsett
 //Esto es un endpoint, ya que, ante una peticion a la ruta(/), haremos el apellido
 
 //Ahora crearemos un endpint para obtenr un listado de generos
