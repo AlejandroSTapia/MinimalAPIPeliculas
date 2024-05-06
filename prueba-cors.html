@@ -6,8 +6,10 @@
 </head>
 <body>
     <h1>Prueba CORS del Web API (presionar F12)</h1>
+    <h2>Se bloquea CORS si se consume la api desde otro lugar externo, en este caso, aqui</h2>
+    <h3>PAra solucionar eso, habilitar cors en el origen(API)</h3>
     <script>
-        const urlWebAPI = 'https://localhost:7156/';
+        const urlWebAPI = 'https://localhost:7156/generos';
         consumirWebAPI(); 
         async function consumirWebAPI() {
             const respuesta = await fetch(urlWebAPI, {
@@ -22,5 +24,7 @@
 
         }
     </script>
+
+    <p>Si se implemnta cors y no ves los cambios aqui al ejecutarlo, borrar cache en navegdor</p>
 </body>
 </html>
