@@ -18,8 +18,8 @@
                     'Content-Type': 'application/json'
                 }
             });
-
-            const json = await respuesta.text();
+            // const json = await respuesta.json();
+            const json = await respuesta.text();//Se cambio a text ya que recibira el endpoint con cuerpo normal y no un json
             console.log(json);
 
         }

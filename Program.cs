@@ -26,7 +26,8 @@ builder.Services.AddCors(opciones =>
 		//cualquier metodo, como es get, post, put
 		//configuracion.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 
-		//En lugar de cmo arriba, usaremos WithOrigins para decir que origenes con ayuda de lo establecido en appsettings:
+		//COn un ORIGEN ESPECIFICADO permitido En lugar de cmo arriba, usaremos
+			//WithOrigins para decir que origenes con ayuda de lo establecido en appsettings:
 		configuracion.WithOrigins(origenesPermitidos).AllowAnyHeader().AllowAnyMethod();
 	});
 
@@ -53,6 +54,8 @@ app.UseCors();
 
 //Middleware MapGet
 //esto permite difinir que quiere que ocurra cuando una peticion get llega a un endpoint especifico
+
+//Se especifico que se habilitara cors usando la politica de libre en lugar de la primra que es por defecto, solo para este endpoint
 app.MapGet("/",[EnableCors(policyName:"libre")] () => "Hello World!");
 
 //app.MapGet("/", () => apellido); //se comento esto y se descomento lo de arriba, ya que se quito appe de appsett
