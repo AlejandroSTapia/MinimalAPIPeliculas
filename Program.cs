@@ -13,6 +13,7 @@ var origenesPermitidos = builder.Configuration.GetValue<string>("origenesPermiti
 //Obteneer el valor de appsettings dev
 //porque se estan usando proveedores de configuracion
 
+
 	//---  Habilitar CORS  --  SOLO configuracion, no uso o implementacion   -- Solo con esto, aun tenemos cors bloqueado
 		//Paera usarlo, es en el area de los middlewares, mas abajo
 //Servicio de microsoft ya preconfigurado
