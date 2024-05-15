@@ -40,6 +40,9 @@ builder.Services.AddCors(opciones =>
 
 });
 
+//cone sto ya se tiene configurado y disponible pero aun no se usa en este punto- para usarlo es ir al area de los middleware
+builder.Services.AddOutputCache();
+
 //Fin area de los servicios
 
 var app = builder.Build();
@@ -53,7 +56,10 @@ var app = builder.Build();
 //Aqui colocaquermos la configuracion de CORS
 app.UseCors();
 
-//Middleware MapGet
+//para usar outputcache- posteriormente se debe indicar que endoint va a usar esto
+app.UseOutputCache();
+
+			//Middleware MapGet
 //esto permite difinir que quiere que ocurra cuando una peticion get llega a un endpoint especifico
 
 //Se especifico que se habilitara cors usando la politica de libre en lugar de la primra que es por defecto, solo para este endpoint
@@ -71,25 +77,29 @@ app.MapGet("/generos", () =>
 	//colocar la funcionalidad que se quiere que se ejecute cuand recibamos una peticion get a la ruta generos
 
 	//En este caso, se devolera un listado de generos
-	var generos = new List<Genero> {
+	var generos = new List<Genero>
+	{
 
-		new Genero {
+		new Genero
+		{
 			Id = 1,
 			Nombre = "Drama"
 		},
-		new Genero {
+		new Genero
+		{
 			Id = 2,
 			Nombre = "Accion"
 		},
-		new Genero {
+		new Genero
+		{
 			Id = 3,
 			Nombre = "Comedia"
 		},
 	};
 	return generos;
-});
+}).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(15))); //Con esto se indica que a este endpoint se aplicara el outputCache y se especifica el tiempo a usarse
 
-//Fin del area de los middleware
+			//Fin del area de los middleware
 //estos definen las accins que queremos ejecutar cada vez que una peticion http sea recibida por la app
 
 app.Run();
