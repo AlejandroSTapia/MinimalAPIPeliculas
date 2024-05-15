@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 var origenesPermitidos = builder.Configuration.GetValue<string>("origenesPermitidos")!;
 //COn ! indicamos que siempre tendra valor y no sera nulo
 
-//Inicio de area de los servicios
+				//Inicio de area de los servicios
 
 //Obteneer el valor de appsettings dev
 //porque se estan usando proveedores de configuracion
@@ -43,13 +43,26 @@ builder.Services.AddCors(opciones =>
 //cone sto ya se tiene configurado y disponible pero aun no se usa en este punto- para usarlo es ir al area de los middleware
 builder.Services.AddOutputCache();
 
-//Fin area de los servicios
+//Configuracion de swagger, despues de instalar nuget
+builder.Services.AddEndpointsApiExplorer();// esto permitira que swagger pueda explorar los enpoints y listarlos en el sitio web
+//configuracion tal cual de swagger:
+builder.Services.AddSwaggerGen();
+
+			//Fin area de los servicios
 
 var app = builder.Build();
 
-	//Inicio del area de los MIDDLEWAREs
+//Inicio del area de los MIDDLEWAREs
 //Los middleware definen las acciones  que queremos ejecutar cada vez que una peticion http sea recibida por la app
 //El orden de estos es importante
+
+//Utilizar swager - para swagger, debe se antes de UseCors, porque el sitio a ingresar de swagger es propio, no es origen ajeno y por ende no requiere cors
+if (app.Environment.IsDevelopment())
+{
+	app.UseSwagger();
+	app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mi API v1"));
+}
+
 
 //Si queremos aplicar cors a mis endpoints, debo configurarlo antes de los endpints en los middleware
 
@@ -101,5 +114,6 @@ app.MapGet("/generos", () =>
 
 			//Fin del area de los middleware
 //estos definen las accins que queremos ejecutar cada vez que una peticion http sea recibida por la app
+
 
 app.Run();
