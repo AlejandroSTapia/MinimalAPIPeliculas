@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Cors;
+using Microsoft.EntityFrameworkCore;
+using MinimalAPIPeliculas;
 using MinimalAPIPeliculas.Entidades;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,9 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 var origenesPermitidos = builder.Configuration.GetValue<string>("origenesPermitidos")!;
 //COn ! indicamos que siempre tendra valor y no sera nulo
 
-				//Inicio de area de los servicios
+//Inicio de area de los servicios
 
 //Obteneer el valor de appsettings dev
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("name=DefaultConnection"));
 //porque se estan usando proveedores de configuracion
 
 
