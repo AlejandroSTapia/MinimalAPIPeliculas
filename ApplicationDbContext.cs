@@ -14,7 +14,7 @@ namespace MinimalAPIPeliculas
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
-				optionsBuilder.UseSqlServer("YourConnectionStringHere",
+				optionsBuilder.UseSqlServer("DefaultConnection",
 					sqlServerOptionsAction: sqlOptions =>
 					{
 						sqlOptions.EnableRetryOnFailure(
@@ -25,5 +25,10 @@ namespace MinimalAPIPeliculas
 			}
 		}
 		//Sin embargo la tabla aun no se ha creado, porque falta hacer la migracion por comados
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Genero>().ToTable("Generos");
+		}
 	}
 }

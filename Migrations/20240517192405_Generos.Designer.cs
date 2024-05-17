@@ -11,7 +11,7 @@ using MinimalAPIPeliculas;
 namespace MinimalAPIPeliculas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240517171820_Generos")]
+    [Migration("20240517192405_Generos")]
     partial class Generos
     {
         /// <inheritdoc />
@@ -34,11 +34,12 @@ namespace MinimalAPIPeliculas.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Generos");
+                    b.ToTable("Generos", (string)null);
                 });
 #pragma warning restore 612, 618
         }
