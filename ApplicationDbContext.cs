@@ -26,9 +26,24 @@ namespace MinimalAPIPeliculas
 		}
 		//Sin embargo la tabla aun no se ha creado, porque falta hacer la migracion por comados
 
+		//Se agrego para que generera la migracion(pero no, era porque me faltaba la propiedad, abajo agregada)
+		//protected override void OnModelCreating(ModelBuilder modelBuilder)
+		//{
+		//	modelBuilder.Entity<Genero>().ToTable("Generos");
+		//}
+
+
+		//Posteiormente se creo de esta manera para usar:
+		//API fluente
+		//Esto seoia igual a colocar lo de [StringLength(50)] en la entidad
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Genero>().ToTable("Generos");
+			base.OnModelCreating(modelBuilder); //esta linea siempre debe ir, y no se debe eliminar(creo solo cuando se usa este metodo
+			modelBuilder.Entity<Genero>().Property(p => p.Nombre).HasMaxLength(50);
 		}
+
+		//Agregue de nuevo esta linea
+			//Creo es por eso que NO me generaba las MIGRACIONES
+		public DbSet<Genero> Generos { get; set; }
 	}
 }
